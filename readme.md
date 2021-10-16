@@ -1,67 +1,44 @@
-# Voice-Assistant Reminder-Skill
+# Voice-Assistant Mercedes Benz
 
-## Preface
+Your Task
+Design and implement a REST API that will be part of the cloud backend for the
+Mercedes Benz voice assistant and that covers both, the user story and the
+technical requirements below.
 
-This project serves as a coding challenge for hiring candidates for the Hybrid Cloud Platform
-department at MBition GmbH. Please do not distribute the content, generated artifacts or your
-solution, especially not on any publicly available platform.
+User Story:
 
-## Application
+As a driver of a Mercedes Benz car, I want to use my car’s voice assistant to create,
+query and remove personal reminders.
 
-This application serves as a REST service which provides endpoints that handle reminders for the
-Mercedes Benz Voice-Assistant Platform. It is a multi-module project using Java 11, Spring-Boot and
-Maven.
+If I speak “Hey Mercedes, remind me to buy milk today” the reminder “buy milk”
+should be added to my reminders list for today. Adding reminders for specific days
+in the future as well as removing all reminders, all reminders for a day or a single
+reminder should work similarly.
 
-The API is specified in `reminders-api/reminders-api-spec.yaml` and built using
-the `openapi-generator-maven-plugin`. The build artifacts serve as a foundation for the actual
-implementation in the `reminders-app` module.
+Later, when I ask “Hey Mercedes, what are my reminders for the 22nd of January?”,
+I would expect a friendly response that contains a list of my reminders for that day
+in the order I created them. A query for reminders without specifying a date and
+limiting the number of returned reminders would be nice to have.
+Time of day and reoccurring events are not required.
 
-### Getting Started
+Technical requirements:
 
-To build and run the application, it is generally advised to use Docker, but running it directly via
-JDK is also possible.
+Client: The car will not directly communicate with our service but through the
+Voice Assistant Platform (VAP). This will be the direct client of our service and
+takes care of transcribing the user’s voice input as text (speech to text), as well
+as transforming the response text into audible voice output (text to speech).
+The VAP Team has left us to decide individually on two design choices regarding
+where to put some of the business logic. Either our service OR the VAP should
+take care about:
 
-#### Build and run with Docker
+- detecting the user’s intended operation from the transcribed request, e.g.
+- create a new reminder “buy milk”
+- delete all reminders
+- creating the response text for the user, e.g.
+- Ok, I have added “buy milk” to your reminders
+- Alright, I have deleted all your reminders
 
-All commands below assume that the docker host will resolve to `127.0.0.1`(`localhost`) and that port `8080` is
-free.
+However we decide, we can assume that VAP is configured to correctly call our
+API according to our specification and to process the response accordingly. It also
+provides fallback answers in case our service does not return a valid response.
 
-The Docker image can be built using:
-
-```
-docker build . -t reminders
-```
-
-The built image can be run using:
-
-```
-docker run -i -p 8080:8080 reminders
-```
-
-#### Build and run with JDK/Maven
-
-While with Docker it is possible to build and run the service without having a JDK installed on the
-machine, having a compatible JDK should reduce IDE warnings and enable running smaller builds or
-tests via CLI and IDE. The project is targeted to Java 11, but any later JDK version should also
-work.
-
-Generate artifacts from the API module (this is also required whenever `reminders-api-spec.yaml` is
-changed):
-
-```
-./mvnw install -f reminders-api/pom.xml       
-```
-
-Build and run the application:
-
-```
-./mvnw spring-boot:run -f reminders-app/pom.xml        
-```
-
-### Test the service
-
-The service initially contains one endpoint, that can be called with the following URL:
-```http://127.0.0.1:8080/dummies/foo?bar=1234```
-
-The project also includes a Swagger-UI to explore and test the API:
-```http://127.0.0.1:8080/swagger-ui/index.html#```
