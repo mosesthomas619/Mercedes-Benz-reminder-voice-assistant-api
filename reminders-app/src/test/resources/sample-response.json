@@ -1,0 +1,27 @@
+{
+  "Reminders":{
+    "listing":{
+      "content":[
+        {
+          "date":"2021-10-03",
+          "message":"First Reminder",
+          "reminderId":"1"
+        }
+      ],
+      "pageable":"INSTANCE",
+      "totalElements":1,
+      "totalPages":1,
+      "last":true,
+      "size":1,
+      "number":0,
+      "sort":{
+        "unsorted":true,
+        "sorted":false,
+        "empty":true
+      },
+      "first":true,
+      "numberOfElements":1,
+      "empty":false
+    }
+  }
+}
